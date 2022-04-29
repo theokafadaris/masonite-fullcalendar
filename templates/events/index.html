@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{%block head%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css" integrity="sha256-RCJT6YvohmGy+rWQe3hpPZez8iaPnirFVfiwaBVCk1k=" crossorigin="anonymous">
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js" integrity="sha256-AOrsg7pOO9zNtKymdz4LsI+KyLEHhTccJrZVU4UFwIU=" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}       
+<div class="m-12" id='calendar'></div>
+{% endblock %}
+{% block js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      selectable: true,
+      events: 'http://127.0.0.1:8000/events/get_events',
+      eventClick: function(info) {
+        window.location.replace("http://127.0.0.1:8000/events/edit/"+info.event.id);
+        },
+      dateClick: function(info) {
+        window.location.replace("http://127.0.0.1:8000/events/create?date="+info.dateStr);
+            }
+    });
+    calendar.render();
+  });
+
+    </script>
+{% endblock %}
